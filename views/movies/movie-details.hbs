@@ -15,6 +15,10 @@
 
     {{/each}}
 
+    <a href="/movies/{{this.oneMovie._id}}/edit">
+    <button>Edit</button>
+    </a>
+
     <form action="/movies/{{this.oneMovie._id}}/delete" method="post">
     <button>Delete</button>
     </form>

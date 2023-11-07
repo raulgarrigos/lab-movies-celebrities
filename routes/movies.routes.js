@@ -59,12 +59,47 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-// POST "movies/:id/delete" => Eliminar una película de la BD y redireccionar
+// POST "/movies/:id/delete" => Eliminar una película de la BD y redireccionar
 
 router.post("/:id/delete", async (req, res, next) => {
   console.log("Borrando la película; ", req.params.id);
   try {
     await Movie.findByIdAndRemove(req.params.id);
+    res.redirect("/movies");
+  } catch (error) {
+    next(error);
+  }
+});
+
+// GET "/movies/:id/edit" => Renderizar un formulario para editar las películas
+router.get("/:id/edit", async (req, res, next) => {
+  try {
+    const movieToEdit = await Movie.findById(req.params.id).populate("cast");
+    console.log(movieToEdit);
+    const allCelebrities = await Celebrity.find().select({ name: 1 });
+    console.log(allCelebrities);
+    res.render("movies/edit-movie.hbs", {
+      movieToEdit,
+      allCelebrities,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST "/movies/:id/edit" => Enviar la información del formulario a esta ruta y actualizar la película
+
+router.post("/:id/edit", async (req, res, next) => {
+  const { id } = req.params;
+  const { title, genre, plot, cast } = req.body;
+
+  try {
+    await Movie.findByIdAndUpdate(id, {
+      title,
+      genre,
+      plot,
+      cast,
+    });
     res.redirect("/movies");
   } catch (error) {
     next(error);
