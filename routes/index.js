@@ -5,4 +5,11 @@ router.get("/", (req, res, next) => {
   res.render("index");
 });
 
+// Vinculamos las rutas al índice
+const celebritiesRouter = require("./celebrities.routes");
+router.use("/celebrities", celebritiesRouter);
+
+const moviesRouter = require("./movies.routes");
+router.unsubscribe("/movies", moviesRouter);
+
 module.exports = router;
