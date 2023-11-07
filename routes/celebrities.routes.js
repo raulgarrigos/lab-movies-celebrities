@@ -27,4 +27,14 @@ router.post("/create", async (req, res, next) => {
 
 // GET "/celebrities" => Renderizar la lista de celebridades creadas
 
+router.get("/", async (req, res, next) => {
+  try {
+    const allCelebrities = await Celebrity.find().select({ name: 1 });
+    console.log(allCelebrities);
+    res.render("celebrities/celebrities.hbs", { allCelebrities });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
