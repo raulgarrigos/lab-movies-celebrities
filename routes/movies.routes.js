@@ -18,7 +18,6 @@ router.get("/create", async (req, res, next) => {
 
 router.post("/create", async (req, res, next) => {
   console.log(req.body);
-
   const { title, genre, plot, cast } = req.body;
 
   try {
@@ -29,6 +28,18 @@ router.post("/create", async (req, res, next) => {
       cast,
     });
     res.redirect("/movies");
+  } catch (error) {
+    next(error);
+  }
+});
+
+// GET "/movies" => Renderizar la lista de películas creadas
+
+router.get("/", async (req, res, next) => {
+  try {
+    const allMovies = await Movie.find().select({ title: 1 });
+    console.log(allMovies);
+    res.render("movies/movies.hbs", { allMovies });
   } catch (error) {
     next(error);
   }
