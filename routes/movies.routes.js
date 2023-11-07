@@ -59,4 +59,16 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+// POST "movies/:id/delete" => Eliminar una película de la BD y redireccionar
+
+router.post("/:id/delete", async (req, res, next) => {
+  console.log("Borrando la película; ", req.params.id);
+  try {
+    await Movie.findByIdAndRemove(req.params.id);
+    res.redirect("/movies");
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
