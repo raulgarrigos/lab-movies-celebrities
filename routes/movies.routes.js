@@ -45,4 +45,18 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// GET "/movies/:id"" => Renderizar los detalles de cada película
+
+router.get("/:id", async (req, res, next) => {
+  try {
+    const oneMovie = await Movie.findById(req.params.id).populate("cast");
+    console.log("Este es el id: ", req.params.id);
+    console.log("Esta es la respuesta: ", oneMovie);
+
+    res.render("movies/movie-details.hbs", { oneMovie });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
