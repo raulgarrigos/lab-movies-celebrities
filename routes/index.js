@@ -10,6 +10,6 @@ const celebritiesRouter = require("./celebrities.routes");
 router.use("/celebrities", celebritiesRouter);
 
 const moviesRouter = require("./movies.routes");
-router.unsubscribe("/movies", moviesRouter);
+router.use("/movies", moviesRouter);
 
 module.exports = router;
